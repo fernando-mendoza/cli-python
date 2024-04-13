@@ -5,6 +5,26 @@ import utils
 def cli():
     pass
 
+
+@cli.command()
+@click.option('--name', required=True, help='Name of the user')
+@click.option('--lastname', required=True, help='Lastname of the user')
+@click.pass_context
+def new_user(ctx, name, lastname):
+    if not name or not lastname:
+        ctx.fail('the name and lastname are required')
+    else:
+        data = utils.read_json()
+        new_id = len(data) + 1
+        new_user = {
+            'id': new_id,
+            'name': name,
+            'lastname': lastname
+        }
+        data.append(new_user)
+        utils.write_json(data)
+        print(f"User {name} - {lastname} created successfully with id {new_id}")
+
 @cli.command()
 def users():
     users = utils.read_json()
