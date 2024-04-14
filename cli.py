@@ -31,5 +31,17 @@ def users():
     for user in users:
         print(f"{user['id']} - {user['name']} - {user['lastname']}")
 
+@cli.command()
+@click.argument('id', type=int)
+def user(id):
+    data = utils.read_json()
+    user = next((x for x in data if x['id'] == id), None)
+    if user is None:
+        print(f"User with id {id} not found")
+    else:
+        print(f"{user['id']} - {user['name']} - {user['lastname']}")
+
+
+
 if __name__ == '__main__':
     cli()
