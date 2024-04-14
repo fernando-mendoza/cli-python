@@ -43,6 +43,23 @@ def user(id):
 
 @cli.command()
 @click.argument('id', type=int)
+@click.option('--name', help='Name of the user')
+@click.option('--lastname', help='Lastname of the user')
+def update(id, name, lastname):
+    data = utils.read_json()
+    for user in data:
+        if user['id'] == id:
+            if name is not None:
+                user['name'] = name
+            if lastname is not None:
+                user['lastname'] = lastname
+            break
+    utils.write_json(data)
+    print(f"User with id {id} updated successfully!")
+
+
+@cli.command()
+@click.argument('id', type=int)
 def delete(id):
     data = utils.read_json()
     user = next((x for x in data if x['id'] == id), None)
