@@ -41,7 +41,17 @@ def user(id):
     else:
         print(f"{user['id']} - {user['name']} - {user['lastname']}")
 
-
+@cli.command()
+@click.argument('id', type=int)
+def delete(id):
+    data = utils.read_json()
+    user = next((x for x in data if x['id'] == id), None)
+    if user is None:
+        print(f"User with id {id} not found")
+    else:
+        data.remove(user)
+        utils.write_json(data)
+        print(f"User with id {id} deleted successfully!")
 
 if __name__ == '__main__':
     cli()
